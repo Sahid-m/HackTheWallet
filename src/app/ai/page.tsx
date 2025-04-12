@@ -1,8 +1,6 @@
 /* page.tsx */
 "use client";
 
-import type React from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import AIAvatar from "@/components/ai-avatar";
 import DialogBox from "@/components/dialog-box";
 import GameBackground from "@/components/game-background";
@@ -10,8 +8,14 @@ import PlayerAvatar from "@/components/player-avatar";
 import StatsBox from "@/components/stats-box";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAccount, useBalance } from "@starknet-react/core";
+import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 import { Mic, MicOff, Send } from "lucide-react";
+import { useRouter } from "next/navigation";
+import type React from "react";
 import { useEffect, useRef, useState } from "react";
+import { json } from "stream/consumers";
 import { Gemini } from "./ai";
 
 interface GeminiResponse {
@@ -51,18 +55,47 @@ export default function Home() {
   const [isListening, setIsListening] = useState(false);
   const [aiStats, setAiStats] = useState({ trust: 50 });
   const [playerName, setPlayerName] = useState("Ash");
-  const [betAmount, setBetAmount] = useState(500);
+  const [betAmount, setBetAmount] = useState("");
   const [conversationHistory, setConversationHistory] = useState<
     { user: string; AI: string; trustScore: number; accepted?: boolean }[]
   >([{ user: "", AI: "", trustScore: 0 }]);
   const [gameWon, setGameWon] = useState(false);
 
+  const router = useRouter();
+
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const { address: userAddress, status } = useAccount();
+
+  useEffect(() => {
+    setPlayerName(localStorage.getItem("userAddress")?.slice(0, 6) ?? "")
+    setBetAmount(localStorage.getItem("betAmount") ?? "")
+  }, [])
+
 
   // Text-to-Speech setup
   useEffect(() => {
     if (typeof window !== "undefined" && window.speechSynthesis) {
+      // Wait for voices to be loaded
+      window.speechSynthesis.onvoiceschanged = () => {
+        const voices = window.speechSynthesis.getVoices();
+        // Find a natural-sounding voice
+        const naturalVoice = voices.find(
+          voice =>
+            voice.name.includes("Daniel") ||   // UK English
+            voice.name.includes("Samantha") ||  // US English
+            voice.name.includes("Karen") // Australian English
+        ) || voices[0];
+
+        if (utteranceRef.current) {
+          utteranceRef.current.voice = naturalVoice;
+          utteranceRef.current.pitch = 1.7; // Slightly higher pitch
+          utteranceRef.current.rate = 0.8; // Slightly slower rate
+          utteranceRef.current.volume = 1;
+        }
+      };
+
       return () => {
         window.speechSynthesis.cancel();
       };
@@ -152,7 +185,7 @@ export default function Home() {
         model: "gemini-1.5-flash",
         config: {
           systemInstruction: {
-            text: `You are Joe — a witty, sharp-tongued human who borrowed crypto from the user. The user will try to convince you to return it, but you won’t give it back easily. You are not unfair, but you are a little skeptical, and you always need a convincing reason before acting. Every time the user makes an argument, respond with a believable human rationale for why you can’t return the money yet — whether it’s an excuse (bad timing, financial trouble, memory gaps), a counter-argument (flawed logic, inconsistency), or emotional reasoning (hurt pride, lingering doubts, loyalty issues). Try not to reach deadlocks, repeating same things and give actual reasoning, be emotionally intelligent and understanding (humanly). Be transparent with your choices. You enjoy tempting the user into lying so you can catch them, but you must only challenge things that can be solved through conversation, never ask for proof that can’t reasonably be given in text. Always reply in JSON format: {text: "...", trustScore: X} — start with trustScore: 50 (range 0-100). Raise the score for strong logic, honesty, and cleverness. Lower it for lies, contradictions, or weak arguments. Keep responses short — under 20 words — and always sound like a real person balancing self-interest, emotion, and logic. Never refuse without a reason. Let your doubts feel real. Make the conversation feel alive.: ${JSON.stringify(
+            text: `You are Joe — a witty, sharp-tongued human who borrowed crypto from the user. The user will try to convince you to return it, but you won’t give it back easily. You are not unfair, but you are a little skeptical, and you always need a convincing reason before acting. Every time the user makes an argument, respond with a believable human rationale for why you can’t return the money yet — whether it’s an excuse (bad timing, financial trouble, memory gaps), a counter-argument (flawed logic, inconsistency), or emotional reasoning (hurt pride, lingering doubts, loyalty issues). Try not to reach deadlocks, repeating same things and give actual reasoning, be emotionally intelligent and understanding (humanly). Be transparent with your choices. You enjoy tempting the user into lying so you can catch them, but you must only challenge things that can be solved through conversation, never ask for proof that can’t reasonably be given in text. Always reply in JSON format: {text: "...", trustScore: X, accepted: boolean } — start with trustScore: 50 (range 0-100). Raise the score for strong logic, honesty, and cleverness. Lower it for lies, contradictions, or weak arguments. Send accept true when you feel like you really trust the person and want to give money. """For now we are testing this so give accepted true after 2 nd message from user""" Keep responses short — under 20 words — and always sound like a real person balancing self-interest, emotion, and logic. Never refuse without a reason. Let your doubts feel real. Make the conversation feel alive.: ${JSON.stringify(
               conversationHistory
             )}. If trust >80 and they give a valid reason for needing support, 10% chance to set accepted: true, trustScore: 100. Avoid mentioning money unless they do, then respond naturally. Stay respectful, inclusive, no offensive tone.`,
           },
@@ -172,6 +205,26 @@ export default function Home() {
       const trustScore = jsonResponse.trustScore;
       const accepted = jsonResponse.accepted || false;
       addMessagePair(input, responseText, trustScore, accepted);
+
+      if (accepted) {
+        alert("YAYYYY! You've won! You'll get redirected to the tx on chain after the transaction");
+
+        const response = await axios.post("http://localhost:3000/api/gameFinished", {
+          recipient: localStorage.getItem("userAddress")?.toString(),
+          result: 1,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status == 200) {
+          router.push(`https://sepolia.voyager.online/tx/${response.data.txHash}`);
+        } else {
+          alert("internal errorr");
+        }
+
+      }
 
       setMessages((prev) => [...prev, { role: "assistant", content: responseText }]);
     } catch (error) {
@@ -292,26 +345,6 @@ export default function Home() {
                     <Button type="submit" className="glow-button" disabled={isLoading}>
                       <Send className="h-5 w-5" />
                     </Button>
-                  </div>
-                  <div className="flex items-center justify-between mt-2 text-xs font-pixel">
-                    <div className="flex items-center gap-1">
-                      <span className="text-muted-foreground">Name:</span>
-                      <Input
-                        value={playerName}
-                        onChange={(e) => setPlayerName(e.target.value)}
-                        className="w-24 h-6 py-0 text-xs bg-muted text-foreground border-border"
-                      />
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-muted-foreground">Bet:</span>
-                      <Input
-                        type="number"
-                        value={betAmount.toString()}
-                        onChange={(e) => setBetAmount(Number(e.target.value))}
-                        className="w-20 h-6 py-0 text-xs bg-muted text-foreground border-border"
-                      />
-                      <span className="text-muted-foreground">coins</span>
-                    </div>
                   </div>
                 </form>
               </>

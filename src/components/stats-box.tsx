@@ -8,7 +8,7 @@ interface StatsBoxProps {
   showSingleStat?: boolean
   singleStatName?: string
   playerName?: string
-  betAmount?: number
+  betAmount?: string
 }
 
 export default function StatsBox({
