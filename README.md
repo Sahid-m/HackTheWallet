@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hack the Wallet 🌌
 
-## Getting Started
+![Hack the Wallet Banner](images/banner.png) <!-- Placeholder: Add your banner image -->
 
-First, run the development server:
+**Hack the Wallet** is an immersive blockchain-based game built on Starknet, blending conversational AI with retro pixel-art aesthetics. Challenge Joe, a cunning AI, to reclaim borrowed crypto through witty dialogue. With a Star Wars-inspired crawl, voice interaction, and a free 100-token airdrop, this game makes DeFi fun and accessible. Ready to outsmart the wallet? 🚀
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📜 Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Project Summary](#project-summary)
+- [Features](#features)
+- [Demo Screenshots](#demo-screenshots)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [How to Play](#how-to-play)
+- [Airdrop](#airdrop)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🌟 Project Summary
 
-To learn more about Next.js, take a look at the following resources:
+**Hack the Wallet** is a Next.js-powered game where players connect their Starknet wallet to engage in a conversational challenge. The goal? Convince Joe, an AI opponent, to return borrowed cryptocurrency by building trust through clever arguments. The game features a retro pixelated UI, a cinematic Star Wars crawl intro, and blockchain integration for betting and rewards.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Key objectives:
+- Create an engaging DeFi experience with gamified blockchain interactions.
+- Combine conversational AI with voice input/output for accessibility.
+- Offer a free airdrop to onboard new players seamlessly.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Built for the Sepolia testnet, the game supports wallet connections, on-chain transactions, and a trust-based scoring system. Whether you’re a blockchain enthusiast or a casual gamer, **Hack the Wallet** delivers a unique blend of strategy and style.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✨ Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Starknet Wallet Integration**: Connect wallets like Argent X or Braavos to bet and win tokens.
+- **Conversational Gameplay**: Outwit Joe using text or voice; win by raising his trust score.
+- **Pixel-Art Aesthetic**: Retro design with Press Start 2P font and animated backgrounds.
+- **Star Wars Crawl**: A cinematic intro that sets the sci-fi tone.
+- **Airdrop System**: Mint 100 free tokens to try the game without spending.
+- **Voice Interaction**: Speech recognition and text-to-speech for immersive gameplay.
+- **Responsive UI**: Smooth animations with Framer Motion and Tailwind CSS.
+- **On-Chain Rewards**: Successful players view transactions on Sepolia Voyager.
+
+---
+
+## 📷 Demo Screenshots
+
+Explore the game’s retro-futuristic vibe! (Screenshots to be added.)
+
+| Landing Page | Game Interface | Star Wars Crawl |
+|--------------|----------------|-----------------|
+| ![Landing Page](images/landing.png) | ![Game Interface](images/game.png) | ![Star Wars Crawl](images/crawl.png) |
+
+*Note: Placeholder images. Replace with actual screenshots.*
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**:
+  - Next.js (React framework)
+  - Tailwind CSS (styling)
+  - Framer Motion (animations)
+  - tw-animate-css (additional effects)
+- **Blockchain**:
+  - Starknet (Layer 2 scaling)
+  - starknet-react/core (wallet and contract hooks)
+- **Fonts**:
+  - Geist, Geist Mono
+  - Press Start 2P (pixel font)
+- **APIs**:
+  - Gemini 1.5 Flash (conversational AI)
+  - Axios (backend communication)
+  - SpeechRecognition & SpeechSynthesis (voice features)
+- **Contract**:
+  - Starknet contract for minting and transactions
+  - ABI for reading contract data
+
+---
+
+## 🚀 Getting Started
+
+Run **Hack the Wallet** locally to join the fun.
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **pnpm** (recommended package manager)
+- **Starknet Wallet** (e.g., Argent X or Braavos, set to Sepolia testnet)
+- **Git**
+
+### Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/your-username/hack-the-wallet.git
+   cd hack-the-wallet
