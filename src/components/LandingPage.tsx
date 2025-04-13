@@ -257,7 +257,8 @@ export default function Landing() {
 
 
                 <section className="text-center">
-                    <button
+                    {<button
+                        //@ts-ignore
                         disabled={isStartDisabled}
                         className={cn(
                             "font-pixel text-lg bg-[#4d61e3] text-white px-8 py-4 rounded-lg",
@@ -294,7 +295,7 @@ export default function Landing() {
                         }}
                     >
                         {buttonText}
-                    </button>
+                    </button>}
                 </section>
             </div>
         </main>

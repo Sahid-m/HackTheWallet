@@ -73,7 +73,9 @@ export async function POST(request: NextRequest) {
       recipient,
       100000000000000000000,
     ]);
+    //@ts-ignore
     const maxQtyGasAuthorized = 1800n; // max quantity of gas authorized
+    //@ts-ignore
     const maxPriceAuthorizeForOneGas = 50n * 10n ** 12n; // max FRI authorized to pay 1 gas (1 FRI=10**-18 STRK)
     console.log(
       "max authorized cost =",
