@@ -4,10 +4,10 @@ import Image from "next/image"
 
 export default function PlayerAvatar() {
   return (
-    <div className="relative w-24 h-24 transform-gpu">
+    <div className="relative w-24 h-0 transform-gpu">
       <div className="pixelated-container">
         <Image
-          src="/player.png"
+          src="/ai.png"
           alt="Player Avatar"
           width={96}
           height={96}
@@ -17,7 +17,7 @@ export default function PlayerAvatar() {
       <style jsx>{`
         .pixelated-container {
           image-rendering: pixelated;
-          transform: scale(1.5);
+          transform: scale(4.5);
           transform-origin: bottom center;
         }
         .pixelated {
