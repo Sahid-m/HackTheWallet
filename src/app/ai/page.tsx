@@ -24,7 +24,7 @@ interface GeminiResponse {
   accepted?: boolean;
 }
 
-// Aceternity-inspired background beams component (simplified)
+// Aceternity-inspired background beams component
 const BackgroundBeams = () => (
   <div className="absolute inset-0 overflow-hidden">
     <motion.div
@@ -60,38 +60,94 @@ export default function Home() {
     { user: string; AI: string; trustScore: number; accepted?: boolean }[]
   >([{ user: "", AI: "", trustScore: 0 }]);
   const [gameWon, setGameWon] = useState(false);
+  const [timer, setTimer] = useState<number>(600); // 10 minutes in seconds
+  const [timerStarted, setTimerStarted] = useState<boolean>(false);
+  const [gameEnded, setGameEnded] = useState<boolean>(false);
 
   const router = useRouter();
-
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const { address: userAddress, status } = useAccount();
 
   useEffect(() => {
-    setPlayerName(localStorage.getItem("userAddress")?.slice(0, 6) ?? "")
-    setBetAmount(localStorage.getItem("betAmount") ?? "")
-  }, [])
+    setPlayerName(localStorage.getItem("userAddress")?.slice(0, 6) ?? "");
+    setBetAmount(localStorage.getItem("betAmount") ?? "");
+  }, []);
 
+  // Timer logic
+  useEffect(() => {
+    if (timerStarted && timer > 0 && !gameWon && !gameEnded) {
+      timerRef.current = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+
+    if (timer === 0 && !gameWon && !gameEnded) {
+      handleGameEnd();
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [timer, timerStarted, gameWon, gameEnded]);
+
+  // Format timer for display (MM:SS)
+  const formatTimer = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  // Handle game end with gameFinished API
+  const handleGameEnd = async () => {
+    setGameEnded(true);
+    try {
+      const response = await axios.post(
+        `/api/gameFinished`,
+        {
+          recipient: localStorage.getItem("userAddress")?.toString(),
+          result: 0, // Loss due to timeout
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Time's up! Game over. Check the transaction on Sepolia Voyager.");
+        router.push(`https://sepolia.voyager.online/tx/${response.data.txHash}`);
+      } else {
+        alert("Error ending game. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error calling gameFinished API:", error);
+      alert("Failed to end game. Check console for details.");
+    }
+  };
 
   // Text-to-Speech setup
   useEffect(() => {
     if (typeof window !== "undefined" && window.speechSynthesis) {
-      // Wait for voices to be loaded
       window.speechSynthesis.onvoiceschanged = () => {
         const voices = window.speechSynthesis.getVoices();
-        // Find a natural-sounding voice
-        const naturalVoice = voices.find(
-          voice =>
-            voice.name.includes("Daniel") ||   // UK English
-            voice.name.includes("Samantha") ||  // US English
-            voice.name.includes("Karen") // Australian English
-        ) || voices[0];
+        const naturalVoice =
+          voices.find(
+            (voice) =>
+              voice.name.includes("Daniel") ||
+              voice.name.includes("Samantha") ||
+              voice.name.includes("Karen")
+          ) || voices[0];
 
         if (utteranceRef.current) {
           utteranceRef.current.voice = naturalVoice;
-          utteranceRef.current.pitch = 1.7; // Slightly higher pitch
-          utteranceRef.current.rate = 0.8; // Slightly slower rate
+          utteranceRef.current.pitch = 1.7;
+          utteranceRef.current.rate = 0.8;
           utteranceRef.current.volume = 1;
         }
       };
@@ -173,7 +229,11 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || isLoading || gameWon) return;
+    if (!input.trim() || isLoading || gameWon || gameEnded) return;
+
+    if (!timerStarted) {
+      setTimerStarted(true);
+    }
 
     const userMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -209,21 +269,24 @@ export default function Home() {
       if (accepted) {
         alert("YAYYYY! You've won! You'll get redirected to the tx on chain after the transaction");
 
-        const response = await axios.post(`/api/gameFinished`, {
-          recipient: localStorage.getItem("userAddress")?.toString(),
-          result: 1,
-        }, {
-          headers: {
-            "Content-Type": "application/json",
+        const response = await axios.post(
+          `/api/gameFinished`,
+          {
+            recipient: localStorage.getItem("userAddress")?.toString(),
+            result: 1,
           },
-        });
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (response.status == 200) {
+        if (response.status === 200) {
           router.push(`https://sepolia.voyager.online/tx/${response.data.txHash}`);
         } else {
-          alert("internal errorr");
+          alert("Error ending game. Please try again.");
         }
-
       }
 
       setMessages((prev) => [...prev, { role: "assistant", content: responseText }]);
@@ -250,6 +313,18 @@ export default function Home() {
       <div className="w-full max-w-3xl h-[700px] relative border-4 border-accent/30 rounded-xl overflow-hidden">
         <GameBackground />
         <BackgroundBeams />
+
+        {/* Timer Display */}
+        <motion.div
+          className="absolute top-6 left-1/2 transform -translate-x-1/2"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="font-pixel text-xl text-[black]">
+            {formatTimer(timer)}
+          </div>
+        </motion.div>
 
         {/* Player Stats */}
         <motion.div
@@ -317,6 +392,15 @@ export default function Home() {
               >
                 🎉 Wow, you really earned my trust! Here’s the support you needed! 🎉
               </motion.div>
+            ) : gameEnded ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                className="text-center font-pixel text-lg text-[#e6546c]"
+              >
+                ⏰ Time's up! Game over. Check your transaction.
+              </motion.div>
             ) : (
               <>
                 <DialogBox
@@ -332,17 +416,21 @@ export default function Home() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="What's on your mind today?"
                       className="flex-1 bg-muted text-foreground border-border rounded-lg px-4 py-2 font-sans"
-                      disabled={isLoading}
+                      disabled={isLoading || gameEnded}
                     />
                     <Button
                       type="button"
                       className="glow-button"
                       onClick={toggleListening}
-                      disabled={!recognitionRef.current}
+                      disabled={!recognitionRef.current || gameEnded}
                     >
                       {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
                     </Button>
-                    <Button type="submit" className="glow-button" disabled={isLoading}>
+                    <Button
+                      type="submit"
+                      className="glow-button"
+                      disabled={isLoading || gameEnded}
+                    >
                       <Send className="h-5 w-5" />
                     </Button>
                   </div>
