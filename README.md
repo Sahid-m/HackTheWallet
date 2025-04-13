@@ -15,7 +15,7 @@
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-
+-[System architecture](#System architecture)
 ---
 
 ## 🌟 Project Summary
@@ -101,5 +101,10 @@ Run **Hack the Wallet** locally to join the fun.
 - **pnpm** (recommended package manager)
 - **Starknet Wallet** (e.g., Argent X or Braavos, set to Sepolia testnet)
 - **Git**
+
+## System architecture
+
+
+![WhatsApp Image 2025-04-13 at 14 11 19_aae02883](https://github.com/user-attachments/assets/1b09f132-6250-42bc-828f-27d9aed6d246)
 
 
