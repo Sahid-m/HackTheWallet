@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 
     const myCall = ContractABI.populate("games_start", [recipient, bet]);
     const maxQtyGasAuthorized = 1800n; // max quantity of gas authorized
-    const maxPriceAuthorizeForOneGas = 20n * 10n ** 12n; // max FRI authorized to pay 1 gas (1 FRI=10**-18 STRK)
+    const maxPriceAuthorizeForOneGas = 50n * 10n ** 12n; // max FRI authorized to pay 1 gas (1 FRI=10**-18 STRK)
     console.log(
       "max authorized cost =",
       maxQtyGasAuthorized * maxPriceAuthorizeForOneGas,

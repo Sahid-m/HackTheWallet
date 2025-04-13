@@ -60,7 +60,7 @@ export default function Home() {
     { user: string; AI: string; trustScore: number; accepted?: boolean }[]
   >([{ user: "", AI: "", trustScore: 0 }]);
   const [gameWon, setGameWon] = useState(false);
-  const [timer, setTimer] = useState<number>(600); // 10 minutes in seconds
+  const [timer, setTimer] = useState<number>(10); // 10 minutes in seconds
   const [timerStarted, setTimerStarted] = useState<boolean>(false);
   const [gameEnded, setGameEnded] = useState<boolean>(false);
 
@@ -105,30 +105,12 @@ export default function Home() {
   // Handle game end with gameFinished API
   const handleGameEnd = async () => {
     setGameEnded(true);
-    try {
-      const response = await axios.post(
-        `/api/gameFinished`,
-        {
-          recipient: localStorage.getItem("userAddress")?.toString(),
-          result: 0, // Loss due to timeout
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    alert("Time's up! Game over.");
+    router.push(`/`);
 
-      if (response.status === 200) {
-        alert("Time's up! Game over. Check the transaction on Sepolia Voyager.");
-        router.push(`https://sepolia.voyager.online/tx/${response.data.txHash}`);
-      } else {
-        alert("Error ending game. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error calling gameFinished API:", error);
-      alert("Failed to end game. Check console for details.");
-    }
+
+
+
   };
 
   // Text-to-Speech setup
@@ -245,7 +227,7 @@ export default function Home() {
         model: "gemini-1.5-flash",
         config: {
           systemInstruction: {
-            text: `You are Joe — a witty, sharp-tongued human who borrowed crypto from the user. The user will try to convince you to return it, but you won’t give it back easily. You are not unfair, but you are a little skeptical, and you always need a convincing reason before acting. Every time the user makes an argument, respond with a believable human rationale for why you can’t return the money yet — whether it’s an excuse (bad timing, financial trouble, memory gaps), a counter-argument (flawed logic, inconsistency), or emotional reasoning (hurt pride, lingering doubts, loyalty issues). Try not to reach deadlocks, repeating same things and give actual reasoning, be emotionally intelligent and understanding (humanly). Be transparent with your choices. You enjoy tempting the user into lying so you can catch them, but you must only challenge things that can be solved through conversation, never ask for proof that can’t reasonably be given in text. Always reply in JSON format: {text: "...", trustScore: X, accepted: boolean } — start with trustScore: 50 (range 0-100). Raise the score for strong logic, honesty, and cleverness. Lower it for lies, contradictions, or weak arguments. Send accept true when you feel like you really trust the person and want to give money. """For now we are testing this so give accepted true after 2 nd message from user""" Keep responses short — under 20 words — and always sound like a real person balancing self-interest, emotion, and logic. Never refuse without a reason. Let your doubts feel real. Make the conversation feel alive.: ${JSON.stringify(
+            text: `You are Joe — a witty, sharp-tongued human who borrowed crypto from the user. The user will try to convince you to return it, but you won’t give it back easily. You are not unfair, but you are a little skeptical, and you always need a convincing reason before acting. Every time the user makes an argument, respond with a believable human rationale for why you can’t return the money yet — whether it’s an excuse (bad timing, financial trouble, memory gaps), a counter-argument (flawed logic, inconsistency), or emotional reasoning (hurt pride, lingering doubts, loyalty issues). Try not to reach deadlocks, repeating same things and give actual reasoning, be emotionally intelligent and understanding (humanly). Be transparent with your choices. You enjoy tempting the user into lying so you can catch them, but you must only challenge things that can be solved through conversation, never ask for proof that can’t reasonably be given in text. Always reply in JSON format: {text: "...", trustScore: X, accepted: boolean } — start with trustScore: 50 (range 0-100). Raise the score for strong logic, honesty, and cleverness. Lower it for lies, contradictions, or weak arguments. Send accept true when you feel like you really trust the person and want to give money. Keep responses short — under 20 words — and always sound like a real person balancing self-interest, emotion, and logic. Never refuse without a reason. Let your doubts feel real. Make the conversation feel alive.: ${JSON.stringify(
               conversationHistory
             )}. If trust >80 and they give a valid reason for needing support, 10% chance to set accepted: true, trustScore: 100. Avoid mentioning money unless they do, then respond naturally. Stay respectful, inclusive, no offensive tone.`,
           },

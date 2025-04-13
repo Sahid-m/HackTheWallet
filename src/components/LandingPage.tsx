@@ -129,6 +129,20 @@ export default function Landing() {
                     <p className="text-lg text-[#e2e2f0] font-sans">
                         Harvest coins in this fun challenge! Convince an AI or outwit a student to win big!
                     </p>
+                    <button
+                        className={cn(
+                            "font-pixel text-lg bg-[#4d61e3] text-white px-8 py-4 rounded-lg",
+                            "shadow-[0_0_10px_#4d61e3/_0.5,_0_0_20px_#e6c054/_0.3]",
+                            "hover:shadow-[0_0_20px_#4d61e3/_0.7,_0_0_30px_#e6c054/_0.5] hover:-translate-y-0.5",
+                            "active:scale-95 transition-all duration-300 ease-out",
+                            "border border-[#e6c054] outline outline-2 outline-[#4d61e3] outline-offset-2 transform transition-all duration-500 ease-out delay-700"
+                        )}
+                        onClick={() => {
+                            router.push('/airdrop')
+                        }}
+                    >
+                        Get FREE Airdrop
+                    </button>
                 </section>
 
                 <section className="text-center mb-8">
