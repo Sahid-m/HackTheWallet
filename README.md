@@ -1,7 +1,6 @@
+![image](https://github.com/user-attachments/assets/c56f9da4-2eb7-48fc-9719-b99046a0fc97)
 
- ![image](https://github.com/user-attachments/assets/c56f9da4-2eb7-48fc-9719-b99046a0fc97)
-
-  Hack the Wallet
+# Hack the Wallet
 
 **Hack the Wallet** is an immersive blockchain-based game built on Starknet, blending conversational AI with retro pixel-art aesthetics. Challenge Joe, a cunning AI, to reclaim borrowed crypto through witty dialogue. With a Star Wars-inspired crawl, voice interaction, and a free 100-token airdrop, this game makes DeFi fun and accessible. Ready to outsmart the wallet? 🚀
 
@@ -15,7 +14,9 @@
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-- [System architecture](#System-architecture)
+  - [Setup Instructions](#setup-instructions)
+- [System Architecture](#system-architecture)
+
 ---
 
 ## 🌟 Project Summary
@@ -49,22 +50,16 @@ Built for the Sepolia testnet, the game supports wallet connections, on-chain tr
 Explore the game’s retro-futuristic vibe through these screenshots!
 
 | **Landing Page** | **Airdrop Page** |
-|-----------------|-----------------|
-| ![LandingPage](https://github.com/user-attachments/assets/4842170b-d4eb-4991-bf65-3657385014ae)
-|![airdroppage](https://github.com/user-attachments/assets/73a72974-ca42-42a0-8b1c-7c73b7dbe1d3)
-|
+|------------------|------------------|
+| ![LandingPage](https://github.com/user-attachments/assets/4842170b-d4eb-4991-bf65-3657385014ae) | ![airdroppage](https://github.com/user-attachments/assets/73a72974-ca42-42a0-8b1c-7c73b7dbe1d3) |
 
 | **Star Wars Crawl** | **Game Interface** |
-|---------------------|-------------------|
-| ![narrationpage](https://github.com/user-attachments/assets/4c214fb2-6098-481c-850e-ce7b6468da46)
-| ![gamepage](https://github.com/user-attachments/assets/74a99569-f75d-4d6b-b51e-6d566f7a5d22)
-|
+|---------------------|--------------------|
+| ![narrationpage](https://github.com/user-attachments/assets/4c214fb2-6098-481c-850e-ce7b6468da46) | ![gamepage](https://github.com/user-attachments/assets/74a99569-f75d-4d6b-b51e-6d566f7a5d22) |
 
 | **Game Win** | **Transaction Confirmation** |
-|-------------|-----------------------------|
-|![winpage](https://github.com/user-attachments/assets/e00ce850-6d48-453e-8474-2008017f8fcd)
- | ![lastpagewheretokenaresendafterwinning](https://github.com/user-attachments/assets/0f926727-3a84-41c8-a84d-bf133948527e)
- |
+|--------------|-------------------------------|
+| ![winpage](https://github.com/user-attachments/assets/e00ce850-6d48-453e-8474-2008017f8fcd) | ![lastpagewheretokenaresendafterwinning](https://github.com/user-attachments/assets/0f926727-3a84-41c8-a84d-bf133948527e) |
 
 ---
 
@@ -102,6 +97,32 @@ Run **Hack the Wallet** locally to join the fun.
 - **Starknet Wallet** (e.g., Argent X or Braavos, set to Sepolia testnet)
 - **Git**
 
+### ⚙️ Setup Instructions
+
+To set up and run **Hack the Wallet** locally from the provided repository, follow these steps:
+
+#### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Sahid-m/HackTheWallet.git
+cd HackTheWallet
+git pull origin main
+```
+#### 2. Install Dependencies
+We recommend using npm with the --legacy-peer-deps flag to avoid dependency conflicts:
+```bash
+npm install --legacy-peer-deps
+```
+#### 3. Run the Development Server
+Start the Next.js app locally:
+
+```bash
+npm run dev
+```
+#### 4. Open in Browser
+Visit http://localhost:3000 to play the game.
+
+Make sure your Starknet wallet (e.g., Argent X or Braavos) is installed and set to the Sepolia testnet.
 ## System architecture
 
 
