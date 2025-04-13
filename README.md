@@ -1,6 +1,7 @@
-# Hack the Wallet 🌌
 
-![Hack the Wallet Banner](images/banner.png) <!-- Placeholder: Add your banner image -->
+ ![image](https://github.com/user-attachments/assets/c56f9da4-2eb7-48fc-9719-b99046a0fc97)
+
+  Hack the Wallet
 
 **Hack the Wallet** is an immersive blockchain-based game built on Starknet, blending conversational AI with retro pixel-art aesthetics. Challenge Joe, a cunning AI, to reclaim borrowed crypto through witty dialogue. With a Star Wars-inspired crawl, voice interaction, and a free 100-token airdrop, this game makes DeFi fun and accessible. Ready to outsmart the wallet? 🚀
 
@@ -45,20 +46,32 @@ Built for the Sepolia testnet, the game supports wallet connections, on-chain tr
 - **Star Wars Crawl**: A cinematic intro that sets the sci-fi tone.
 - **Airdrop System**: Mint 100 free tokens to try the game without spending.
 - **Voice Interaction**: Speech recognition and text-to-speech for immersive gameplay.
-- **Responsive UI**: Smooth animations with Framer Motion and Tailwind CSS.
+- **Non-Responsive UI**: Fixed layout with pixel-perfect design (e.g., `h-[700px]`, `w-72`).
 - **On-Chain Rewards**: Successful players view transactions on Sepolia Voyager.
 
 ---
 
 ## 📷 Demo Screenshots
 
-Explore the game’s retro-futuristic vibe! (Screenshots to be added.)
+Explore the game’s retro-futuristic vibe through these screenshots!
 
-| Landing Page | Game Interface | Star Wars Crawl |
-|--------------|----------------|-----------------|
-| ![Landing Page](images/landing.png) | ![Game Interface](images/game.png) | ![Star Wars Crawl](images/crawl.png) |
+| **Landing Page** | **Airdrop Page** |
+|-----------------|-----------------|
+| ![LandingPage](https://github.com/user-attachments/assets/4842170b-d4eb-4991-bf65-3657385014ae)
+|![airdroppage](https://github.com/user-attachments/assets/73a72974-ca42-42a0-8b1c-7c73b7dbe1d3)
+|
 
-*Note: Placeholder images. Replace with actual screenshots.*
+| **Star Wars Crawl** | **Game Interface** |
+|---------------------|-------------------|
+| ![narrationpage](https://github.com/user-attachments/assets/4c214fb2-6098-481c-850e-ce7b6468da46)
+| ![gamepage](https://github.com/user-attachments/assets/74a99569-f75d-4d6b-b51e-6d566f7a5d22)
+|
+
+| **Game Win** | **Transaction Confirmation** |
+|-------------|-----------------------------|
+|![winpage](https://github.com/user-attachments/assets/e00ce850-6d48-453e-8474-2008017f8fcd)
+ | ![lastpagewheretokenaresendafterwinning](https://github.com/user-attachments/assets/0f926727-3a84-41c8-a84d-bf133948527e)
+ |
 
 ---
 
