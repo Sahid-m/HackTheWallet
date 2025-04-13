@@ -15,7 +15,7 @@
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
--[System architecture](#System architecture)
+- [System architecture](#System-architecture)
 ---
 
 ## 🌟 Project Summary
