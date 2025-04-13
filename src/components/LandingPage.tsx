@@ -189,40 +189,58 @@ export default function Landing() {
                     </div>
                 </section>
 
-                <section className="mb-8">
-                    <div className="flex flex-col md:flex-row gap-8 justify-center">
-                        <div
-                            onClick={() => handleScenarioSelect("ai")}
-                            className={cn(
-                                "w-full md:w-72 p-4 bg-[#2a2a40]/90 rounded-lg cursor-pointer",
-                                "border-2 border-[#4d61e3] rounded-lg cursor-pointer",
-                                "transition-all duration-300 ease-out",
-                                "hover:-translate-y-1 hover:shadow-[0_8px_32px_#4d61e3/_0.3]",
-                                selectedScenario === "ai" ? "border-4 border-[#e6c054]" : "",
-                                "transform transition-all duration-500 ease-out delay-400",
-                                isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90",
-                            )}
-                        >
-                            <div className="flex flex-col items-center">
-                                <div className="w-24 h-24 mb-4 relative">
-                                    <Image
-                                        src="/placeholder.svg?height=96&width=96"
-                                        alt="AI Character"
-                                        width={96}
-                                        height={96}
-                                        className="image-pixelated"
-                                    />
-                                </div>
-                                <h3 className="font-pixel text-xl text-[#e6c054] mb-2">Convince Junimo</h3>
-                                <p className="font-sans text-sm text-[#e2e2f0]">
-                                    Outsmart a clever forest spirit to snag its magical coins!
-                                </p>
-                            </div>
-                        </div>
+                <section className="mb-8"> 
+  <div className="flex flex-col md:flex-row gap-8 justify-center">
+    <div
+      onClick={() => handleScenarioSelect("ai")}
+      className={cn(
+        "w-full md:w-64 h-48 p-3 pixelated-button rounded-lg cursor-pointer",
+        "border-2 border-[#4d61e3]",
+        "transition-all duration-300 ease-out",
+        "hover:-translate-y-1 hover:shadow-[0_8px_32px_#4d61e3/_0.3]",
+        selectedScenario === "ai" ? "border-4 border-[#e6c054]" : "",
+        "transform transition-all duration-500 ease-out delay-400",
+        isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90",
+      )}
+    >
+      <div className="flex flex-col items-center justify-center h-full text-center">
+        <h3 className="font-pixel text-xl text-white mb-2" style={{ textShadow: "0 1px 1px rgba(0,0,0,0.3)" }}>
+          Challenge Joe
+        </h3>
+        <p className="font-sans text-sm text-white" style={{ textShadow: "0 1px 1px rgba(0,0,0,0.3)" }}>
+          Outwit Joe, a confident opponent, to claim his prize coins!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <style jsx>{`
+    .pixelated-button {
+      background-color: #4c6c6e;
+      background-image:
+        linear-gradient(
+          45deg,
+          #6f9fa2 25%,
+          transparent 25%,
+          transparent 75%,
+          #6f9fa2 75%,
+          #6f9fa2
+        ),
+        linear-gradient(
+          45deg,
+          #6f9fa2 25%,
+          transparent 25%,
+          transparent 75%,
+          #6f9fa2 75%,
+          #6f9fa2
+        );
+      background-size: 10px 10px;
+      background-position: 0 0, 5px 5px;
+    }
+  `}</style>
+</section>
 
 
-                    </div>
-                </section>
 
                 <section className="text-center">
                     <button

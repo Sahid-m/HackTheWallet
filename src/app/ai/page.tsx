@@ -193,7 +193,7 @@ export default function Home() {
         contents: `User: ${input}`,
       });
 
-      const cleanedText = text.replace(/```json|```/g, "").trim();
+      const cleanedText = (text ?? "").replace(/```json|```/g, "").trim();
       let jsonResponse: { text: string; trustScore: number; accepted: boolean };
       try {
         jsonResponse = JSON.parse(cleanedText);
@@ -289,7 +289,7 @@ export default function Home() {
 
         {/* Player Avatar */}
         <motion.div
-          className="absolute bottom-80 left-20"
+          className="absolute bottom-74 left-24"
           whileHover={{ scale: 1.1, rotate: 5 }}
           transition={{ duration: 0.3 }}
         >
@@ -298,7 +298,7 @@ export default function Home() {
 
         {/* AI Avatar */}
         <motion.div
-          className="absolute bottom-80 right-20"
+          className="absolute bottom-74 right-24"
           whileHover={{ scale: 1.1, rotate: -5 }}
           transition={{ duration: 0.3 }}
         >
