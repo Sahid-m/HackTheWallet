@@ -77,7 +77,7 @@ export default function Landing() {
 
     }
 
-    const isStartDisabled = isConnected || betError;
+    const isStartDisabled = isConnected || betError || buttonText == 'Starting the game....';
 
     return (
         <main className="min-h-screen w-full flex items-center justify-center relative overflow-hidden">
@@ -189,32 +189,32 @@ export default function Landing() {
                     </div>
                 </section>
 
-                <section className="mb-8"> 
-  <div className="flex flex-col md:flex-row gap-8 justify-center">
-    <div
-      onClick={() => handleScenarioSelect("ai")}
-      className={cn(
-        "w-full md:w-64 h-48 p-3 pixelated-button rounded-lg cursor-pointer",
-        "border-2 border-[#4d61e3]",
-        "transition-all duration-300 ease-out",
-        "hover:-translate-y-1 hover:shadow-[0_8px_32px_#4d61e3/_0.3]",
-        selectedScenario === "ai" ? "border-4 border-[#e6c054]" : "",
-        "transform transition-all duration-500 ease-out delay-400",
-        isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90",
-      )}
-    >
-      <div className="flex flex-col items-center justify-center h-full text-center">
-        <h3 className="font-pixel text-xl text-white mb-2" style={{ textShadow: "0 1px 1px rgba(0,0,0,0.3)" }}>
-          Challenge Joe
-        </h3>
-        <p className="font-sans text-sm text-white" style={{ textShadow: "0 1px 1px rgba(0,0,0,0.3)" }}>
-          Outwit Joe, a confident opponent, to claim his prize coins!
-        </p>
-      </div>
-    </div>
-  </div>
+                <section className="mb-8">
+                    <div className="flex flex-col md:flex-row gap-8 justify-center">
+                        <div
+                            onClick={() => handleScenarioSelect("ai")}
+                            className={cn(
+                                "w-full md:w-64 h-48 p-3 pixelated-button rounded-lg cursor-pointer",
+                                "border-2 border-[#4d61e3]",
+                                "transition-all duration-300 ease-out",
+                                "hover:-translate-y-1 hover:shadow-[0_8px_32px_#4d61e3/_0.3]",
+                                selectedScenario === "ai" ? "border-4 border-[#e6c054]" : "",
+                                "transform transition-all duration-500 ease-out delay-400",
+                                isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90",
+                            )}
+                        >
+                            <div className="flex flex-col items-center justify-center h-full text-center">
+                                <h3 className="font-pixel text-xl text-white mb-2" style={{ textShadow: "0 1px 1px rgba(0,0,0,0.3)" }}>
+                                    Challenge Joe
+                                </h3>
+                                <p className="font-sans text-sm text-white" style={{ textShadow: "0 1px 1px rgba(0,0,0,0.3)" }}>
+                                    Outwit Joe, a confident opponent, to claim his prize coins!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-  <style jsx>{`
+                    <style jsx>{`
     .pixelated-button {
       background-color: #4c6c6e;
       background-image:
@@ -238,7 +238,7 @@ export default function Landing() {
       background-position: 0 0, 5px 5px;
     }
   `}</style>
-</section>
+                </section>
 
 
 
@@ -261,7 +261,7 @@ export default function Landing() {
                             setButtonText("Starting the game....")
 
                             console.log("before contract call")
-                            const response = await axios.post("http://localhost:3000/api/gameStarted", {
+                            const response = await axios.post(`/api/gameStarted`, {
                                 recipient: userAddress,
                                 bet: betAmount * 1000000000000000000,
                             }, {

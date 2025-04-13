@@ -209,7 +209,7 @@ export default function Home() {
       if (accepted) {
         alert("YAYYYY! You've won! You'll get redirected to the tx on chain after the transaction");
 
-        const response = await axios.post("http://localhost:3000/api/gameFinished", {
+        const response = await axios.post(`/api/gameFinished`, {
           recipient: localStorage.getItem("userAddress")?.toString(),
           result: 1,
         }, {
