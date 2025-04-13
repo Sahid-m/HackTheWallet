@@ -15,13 +15,6 @@
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [How to Play](#how-to-play)
-- [Airdrop](#airdrop)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ---
 
@@ -109,9 +102,4 @@ Run **Hack the Wallet** locally to join the fun.
 - **Starknet Wallet** (e.g., Argent X or Braavos, set to Sepolia testnet)
 - **Git**
 
-### Installation
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-username/hack-the-wallet.git
-   cd hack-the-wallet
